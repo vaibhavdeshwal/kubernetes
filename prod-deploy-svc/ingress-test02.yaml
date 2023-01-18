@@ -1,0 +1,25 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  namespace: test02
+  name: ingress-test02
+  annotations:
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/listen-ports:  '[{"HTTPS":443}]'
+    alb.ingress.kubernetes.io/certificate-arn: <arn of certificate>
+    alb.ingress.kubernetes.io/group.name: beta-prod-elb   ## group name must be same in both ingress ##
+spec:
+  rules:
+  - host: prod.exapmle.com
+    http:
+      paths:
+      - backend:
+          service:
+            name: hello-prod
+            port:
+              number: 80
+        path: /*
+        pathType: ImplementationSpecific
