@@ -1,0 +1,36 @@
+### Create deployment and svc of hello-beta app ###
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-beta
+  namespace: test01
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hello-beta
+  template:
+    metadata:
+      labels:
+        app: hello-beta
+    spec:
+      containers:
+      - name: hello-beta
+        image: vaibhavdeshwal/hello-beta
+        ports:
+        - containerPort: 80
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hello-beta
+  namespace: test01
+spec:
+  selector:
+    app: hello-beta
+  ports:
+  - name: http
+    port: 80
+    targetPort: 80
+  type: ClusterIP
