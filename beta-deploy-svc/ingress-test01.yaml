@@ -1,0 +1,25 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  namespace: test01
+  name: ingress-test01
+  annotations:
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/listen-ports:  '[{"HTTPS":443}]'
+    alb.ingress.kubernetes.io/certificate-arn: <arn of ssl certificate>
+    alb.ingress.kubernetes.io/group.name: beta-prod-elb
+spec:
+  rules:
+  - host: beta.example.com
+    http:
+      paths:
+      - backend:
+          service:
+            name: hello-beta
+            port:
+              number: 80
+        path: /*
+        pathType: ImplementationSpecific
