@@ -14,6 +14,7 @@ Run both the hello-beta and hello-prod file
 #kubectl apply -f beta.yaml
 #kuectl apply -f prod.yaml
 
-In ingress file, comment  annotations of 'certificate arn' if you don't have any ssl certificate.
+In ingress file,
+Chnage certificate arn
 Change you hostname
 Upadte your host entry in your route53 or any other dns provider
