@@ -1,43 +1,3 @@
-# name: DRYing code
-
-# on:
-#   push:
-#     branches:
-#       - main
-
-# jobs:
-#   Test:
-#     runs-on: ubuntu-latest
-#     steps:
-#       - name: Clone Repo
-#         uses: actions/checkout@v4
-
-#       - name: Print Working Directory
-#         run: |
-#           pwd
-#           ls
-#           ls -a
-      
-#       - name: Read Environment Variables from JSON
-#         run: |
-#           VARIABLES=$(cat /home/runner/work/kubernetes/kubernetes/env.json | jq -r 'to_entries | map("\(.key)=\(.value | tostring)") | .[]')
-
-#           # Set the environment variables
-#           echo "$VARIABLES" >> $GITHUB_ENV
-
-#       - name: Use Environment Variables
-#         run: |
-#           for var in "${!IMAGE_@}"; do
-#             echo "Variable from JSON file: $var=${!var}"
-#           done
-
-
-      # - name: Use Environment Variables
-      #   run: |
-      #     echo "Variable from JSON file: $IMAGE_1 $IMAGE_2"
-
-
-
 name: DRYing code
 
 on:
@@ -58,3 +18,10 @@ jobs:
       run: |
         ENVIRONMENT=$(cat /home/runner/work/kubernetes/kubernetes/env.json)
         echo "::set-output name=environment::$ENVIRONMENT"
+
+    - name: Echo variables
+    run: |
+      ENVIRONMENT=$(echo "${{ steps.read-env.outputs.environment }}")
+      for key in $(echo "${!ENVIRONMENT[@]}"); do
+        echo "$key=${ENVIRONMENT[$key]}"
+      done
