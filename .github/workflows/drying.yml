@@ -63,8 +63,8 @@ jobs:
 
     - name: Pull Docker images
       run: |
-        IMAGES="${{ steps.read-env.outputs.images }}"
-        PLATFORM="${{ steps.read-env.outputs.platform }}"
-        for image in $IMAGES; do
+        IMAGES=("${{ env.IMAGES }}")
+        PLATFORM="${{ env.platform }}"
+        for image in "${IMAGES[@]}"; do
           echo "Pulling image: $image for platform: $PLATFORM"
         done
