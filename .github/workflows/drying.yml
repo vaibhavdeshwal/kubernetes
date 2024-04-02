@@ -19,9 +19,16 @@ jobs:
         ENVIRONMENT=$(cat /home/runner/work/kubernetes/kubernetes/env.json)
         echo "::set-output name=environment::$ENVIRONMENT"
 
-    - name: Echo variables
+    - name: Echo specific variables
       run: |
         ENVIRONMENT=$(echo "${{ steps.read-env.outputs.environment }}")
-        for key in $(echo "${!ENVIRONMENT[@]}"); do
-          echo "$key=${ENVIRONMENT[$key]}"
+        IMAGES=$(echo "$ENVIRONMENT" | jq -r '.images[]')
+        PLATFORM=$(echo "$ENVIRONMENT" | jq -r '.platform')
+        ACR_REGISTRY=$(echo "$ENVIRONMENT" | jq -r '.acr_registry')
+        
+        for image in $IMAGES; do
+          echo "Image: $image"
         done
+        
+        echo "Platform: $PLATFORM"
+        echo "ACR Registry: $ACR_REGISTRY"
