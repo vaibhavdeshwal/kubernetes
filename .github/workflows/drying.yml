@@ -15,3 +15,8 @@ jobs:
           pwd
           ls
           ls -a
+      
+      - name: Read Environment Variables from File
+        run: |
+          source /home/runner/work/kubernetes/kubernetes/env
+          echo "Variable from file: $VARIABLE_NAME"
