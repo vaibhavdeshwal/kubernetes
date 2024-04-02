@@ -70,6 +70,19 @@ jobs:
     #     done
 
 
+    # - name: Read variables from JSON file
+    #   id: read-env
+    #   run: |
+    #     ENVIRONMENT=$(cat /home/runner/work/kubernetes/kubernetes/env.json)
+    #     echo "::set-output name=environment::$ENVIRONMENT"
+
+    # - name: Pull Docker images
+    #   run: |
+    #     IMAGES=("${{ env.IMAGES }}")
+    #     PLATFORM="${{ env.platform }}"
+    #     for image in "${IMAGES[@]}"; do
+    #       echo "name of image: $image for platform: $PLATFORM"
+    #     done
     - name: Read variables from JSON file
       id: read-env
       run: |
@@ -78,8 +91,8 @@ jobs:
 
     - name: Pull Docker images
       run: |
-        IMAGES=("${{ env.IMAGES }}")
-        PLATFORM="${{ env.platform }}"
+        IMAGES=("${{ steps.read-env.outputs.environment.IMAGES }}")
+        PLATFORM="${{ steps.read-env.outputs.environment.platform }}"
         for image in "${IMAGES[@]}"; do
-          echo "Pulling image: $image for platform: $PLATFORM"
+          echo "name of image: $image for platform: $PLATFORM"
         done
