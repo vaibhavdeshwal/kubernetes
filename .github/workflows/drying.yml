@@ -35,3 +35,21 @@ jobs:
         echo "ACR Registry: $ACR_REGISTRY"
         echo "Platform: $PLATFORM"
 
+    - name: Pull Docker images
+      run: |
+        # Access the environment variables
+        for image in $IMAGES; do
+          docker pull --platform $PLATFORM $ACR_REGISTRY/$image
+        done
+
+    - name: Print environment variables
+      run: |
+        # Access the environment variables
+        echo "Images:"
+        for image in $IMAGES; do
+          echo "  \$image: $image"
+        done
+        
+        echo "ACR Registry: $ACR_REGISTRY"
+        echo "Platform: $PLATFORM"
+
