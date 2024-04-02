@@ -34,8 +34,11 @@ jobs:
     - name: Change tags of images
       run: |
         for image in $IMAGES; do
-          docker tag $ACR_REGISTRY/$image $AWS_REGISTRY/$image
+          docker tag $image $AWS_REGISTRY/$image
         done
+
+    - name: Docker list images
+      run: docker images
 
 
     # - name: Print environment variables
