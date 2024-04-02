@@ -88,9 +88,6 @@ jobs:
       run: |
         ENVIRONMENT=$(cat /home/runner/work/kubernetes/kubernetes/env.json)
         echo "::set-output name=environment::$ENVIRONMENT"
-
-    - name: Pull Docker images
-      run: |
         IMAGES=("${{ steps.read-env.outputs.environment.IMAGES }}")
         PLATFORM="${{ steps.read-env.outputs.environment.platform }}"
         for image in "${IMAGES[@]}"; do
