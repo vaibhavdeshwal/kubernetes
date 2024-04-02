@@ -23,9 +23,4 @@ jobs:
     - name: Echo specific variables
       run: |
         ENVIRONMENT=$(echo "${{ steps.read-env.outputs.environment }}")
-        IMAGES=$(echo "$ENVIRONMENT" | jq -r '.images[]')
-        PLATFORM=$(echo "$ENVIRONMENT" | jq -r '.platform')
-        ACR_REGISTRY=$(echo "$ENVIRONMENT" | jq -r '.acr_registry')
-        
-        echo "Platform: $PLATFORM"
-        echo "ACR Registry: $ACR_REGISTRY"
+        echo "Environment: $ENVIRONMENT"
