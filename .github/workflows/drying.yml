@@ -1,20 +1,17 @@
-name: Check variable file
-
 on:
   push:
     branches:
-      -main
+      - main
 
 jobs:
   Test:
     runs-on: ubuntu-latest
+    steps:
+      - name: Clone Repo
+        uses: actions/checkout@v4
 
-steps:
-  - name: Clone Repo
-    uses: actions/checkout@v4
-
-  - name: present working directory
-    run: |
-      pwd
-      ls
-      ls -a
+      - name: Print Working Directory
+        run: |
+          pwd
+          ls
+          ls -a
