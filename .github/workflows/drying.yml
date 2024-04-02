@@ -24,32 +24,21 @@ jobs:
         echo "ACR_REGISTRY=$(echo "$ENVIRONMENT" | jq -r '.acr_registry')" >> $GITHUB_ENV
         echo "PLATFORM=$(echo "$ENVIRONMENT" | jq -r '.platform')" >> $GITHUB_ENV
 
-    - name: Print environment variables
-      run: |
-        # Access the environment variables
-        echo "Images:"
-        for image in $IMAGES; do
-          echo "  \$image: $image"
-        done
-        
-        echo "ACR Registry: $ACR_REGISTRY"
-        echo "Platform: $PLATFORM"
-
     - name: Pull Docker images
       run: |
         # Access the environment variables
         for image in $IMAGES; do
-          docker pull --platform $PLATFORM $ACR_REGISTRY/$image
+          docker pull --platform $PLATFORM $image
         done
 
-    - name: Print environment variables
-      run: |
-        # Access the environment variables
-        echo "Images:"
-        for image in $IMAGES; do
-          echo "  \$image: $image"
-        done
+    # - name: Print environment variables
+    #   run: |
+    #     # Access the environment variables
+    #     echo "Images:"
+    #     for image in $IMAGES; do
+    #       echo "  \$image: $image"
+    #     done
         
-        echo "ACR Registry: $ACR_REGISTRY"
-        echo "Platform: $PLATFORM"
+    #     echo "ACR Registry: $ACR_REGISTRY"
+    #     echo "Platform: $PLATFORM"
 
