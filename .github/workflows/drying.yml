@@ -25,10 +25,5 @@ jobs:
         IMAGES=$(echo "$ENVIRONMENT" | jq -r '.images[]')
         PLATFORM=$(echo "$ENVIRONMENT" | jq -r '.platform')
         ACR_REGISTRY=$(echo "$ENVIRONMENT" | jq -r '.acr_registry')
-        
-        for image in $IMAGES; do
-          echo "Image: $images"
-        done
-        
         echo "Platform: $PLATFORM"
         echo "ACR Registry: $ACR_REGISTRY"
