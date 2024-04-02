@@ -16,7 +16,13 @@ jobs:
           ls
           ls -a
       
-      - name: Read Environment Variables from File
+      - name: Read Environment Variables from JSON
         run: |
-          source /home/runner/work/kubernetes/kubernetes/env
-          echo "Variable from file: $IMAGE_1 $IMAGE_2"
+          VARIABLES=$(cat path/to/your/env.json | jq -r 'to_entries | map("\(.key)=\(.value | tostring)") | .[]')
+
+          # Set the environment variables
+          echo "$VARIABLES" >> $GITHUB_ENV
+
+      - name: Use Environment Variables
+        run: |
+          echo "Variable from JSON

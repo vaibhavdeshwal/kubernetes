@@ -1,2 +1,0 @@
-export IMAGE_1=bitnamei/mongodb:5.0
-export IMAGE_2=nginx:latest
