@@ -53,43 +53,8 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    # - name: Read variables from JSON file
-    #   id: read-env
-    #   run: |
-    #     ENVIRONMENT=$(cat /home/runner/work/kubernetes/kubernetes/env.json | jq -r '.')
-    #     for key in $(echo "${ENVIRONMENT}" | jq -r "keys[]" ); do
-    #       echo "::set-output name=$key::$(echo $ENVIRONMENT | jq -r ".$key")"
-    #     done
-
-    # - name: Pull Docker images
-    #   run: |
-    #     IMAGES=("${{ env.IMAGES }}")
-    #     PLATFORM="${{ env.platform }}"
-    #     for image in "${IMAGES[@]}"; do
-    #       echo "Pulling image: $image for platform: $PLATFORM"
-    #     done
-
-
-    # - name: Read variables from JSON file
-    #   id: read-env
-    #   run: |
-    #     ENVIRONMENT=$(cat /home/runner/work/kubernetes/kubernetes/env.json)
-    #     echo "::set-output name=environment::$ENVIRONMENT"
-
-    # - name: Pull Docker images
-    #   run: |
-    #     IMAGES=("${{ env.IMAGES }}")
-    #     PLATFORM="${{ env.platform }}"
-    #     for image in "${IMAGES[@]}"; do
-    #       echo "name of image: $image for platform: $PLATFORM"
-    #     done
     - name: Read variables from JSON file
       id: read-env
       run: |
         ENVIRONMENT=$(cat /home/runner/work/kubernetes/kubernetes/env.json)
         echo "::set-output name=environment::$ENVIRONMENT"
-        IMAGES=("${{ steps.read-env.outputs.environment.IMAGES }}")
-        PLATFORM="${{ steps.read-env.outputs.environment.platform }}"
-        for image in "${IMAGES[@]}"; do
-          echo "name of image: $image for platform: $PLATFORM"
-        done
