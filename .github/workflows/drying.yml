@@ -78,9 +78,8 @@ jobs:
 
     - name: Pull Docker images
       run: |
-        ENVIRONMENT="${{ steps.read-env.outputs.environment }}"
-        IMAGES=($(echo "$ENVIRONMENT" | jq -r '.images[]'))
-        PLATFORM=$(echo "$ENVIRONMENT" | jq -r '.platform')
+        IMAGES=("${{ env.IMAGES }}")
+        PLATFORM="${{ env.platform }}"
         for image in "${IMAGES[@]}"; do
           echo "Pulling image: $image for platform: $PLATFORM"
         done
