@@ -24,6 +24,7 @@ jobs:
         echo "ACR_REGISTRY=$(echo "$ENVIRONMENT" | jq -r '.acr_registry')" >> $GITHUB_ENV
         echo "PLATFORM=$(echo "$ENVIRONMENT" | jq -r '.platform')" >> $GITHUB_ENV
         echo "AWS_REGISTRY=$(echo "$ENVIRONMENT" | jq -r '.acr_registry')" >> $GITHUB_ENV
+        docker rmi -f $(docker images -aq)
 
     - name: Pull Docker images
       run: |
