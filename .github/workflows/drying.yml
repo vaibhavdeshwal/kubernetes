@@ -19,4 +19,4 @@ jobs:
       - name: Read Environment Variables from File
         run: |
           source /home/runner/work/kubernetes/kubernetes/env
-          echo "Variable from file: $VARIABLE_NAME"
+          echo "Variable from file: $IMAGE_1 $IMAGE_2"
