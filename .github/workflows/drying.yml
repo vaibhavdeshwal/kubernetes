@@ -25,4 +25,11 @@ jobs:
 
       - name: Use Environment Variables
         run: |
-          echo "Variable from JSON file: $IMAGE_1 $IMAGE_2"
+          for var in "${!IMAGE_@}"; do
+            echo "Variable from JSON file: $var=${!var}"
+          done
+
+
+      # - name: Use Environment Variables
+      #   run: |
+      #     echo "Variable from JSON file: $IMAGE_1 $IMAGE_2"
