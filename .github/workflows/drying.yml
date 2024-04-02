@@ -18,7 +18,7 @@ jobs:
       
       - name: Read Environment Variables from JSON
         run: |
-          VARIABLES=$(cat path/to/your/env.json | jq -r 'to_entries | map("\(.key)=\(.value | tostring)") | .[]')
+          VARIABLES=$(cat /home/runner/work/kubernetes/kubernetes/env.json | jq -r 'to_entries | map("\(.key)=\(.value | tostring)") | .[]')
 
           # Set the environment variables
           echo "$VARIABLES" >> $GITHUB_ENV
