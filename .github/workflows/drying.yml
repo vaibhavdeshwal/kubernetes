@@ -12,22 +12,26 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
-      
+
     - name: Read variables from JSON file
       id: read-env
       run: |
+        # Read the JSON file into a variable
         ENVIRONMENT=$(cat /home/runner/work/kubernetes/kubernetes/env.json)
-        echo "ENVIRONMENT=$ENVIRONMENT" >> $GITHUB_ENV
+        
+        # Set environment variables
+        echo "IMAGES=$(echo "$ENVIRONMENT" | jq -r '.images | join(" ")')" >> $GITHUB_ENV
+        echo "ACR_REGISTRY=$(echo "$ENVIRONMENT" | jq -r '.acr_registry')" >> $GITHUB_ENV
+        echo "PLATFORM=$(echo "$ENVIRONMENT" | jq -r '.platform')" >> $GITHUB_ENV
 
-    - name: Parse environment variables
+    - name: Print environment variables
       run: |
-        IMAGES=$(jq -r '.images[]' <<< "$ENVIRONMENT")
-        ACR_REGISTRY=$(jq -r '.acr_registry' <<< "$ENVIRONMENT")
-        PLATFORM=$(jq -r '.platform' <<< "$ENVIRONMENT")
+        # Access the environment variables
         echo "Images:"
         for image in $IMAGES; do
           echo "  \$image: $image"
         done
-        echo "ACR Registry: \$ACR_REGISTRY"
-        echo "Platform: \$PLATFORM"
+        
+        echo "ACR Registry: $ACR_REGISTRY"
+        echo "Platform: $PLATFORM"
 
