@@ -1,3 +1,5 @@
+# name: DRYing code
+
 # on:
 #   push:
 #     branches:
@@ -54,14 +56,15 @@ jobs:
     - name: Read variables from JSON file
       id: read-env
       run: |
-        IMAGES=$(jq -r '.images | join(" ")' /home/runner/work/kubernetes/kubernetes/env.json)
-        echo "::set-output name=images::$IMAGES"
+        ENVIRONMENT=$(cat /home/runner/work/kubernetes/kubernetes/env.json | jq -r '.')
+        for key in $(echo "${ENVIRONMENT}" | jq -r "keys[]" ); do
+          echo "::set-output name=$key::$(echo $ENVIRONMENT | jq -r ".$key")"
+        done
 
     - name: Pull Docker images
       run: |
         IMAGES="${{ steps.read-env.outputs.images }}"
+        PLATFORM="${{ steps.read-env.outputs.platform }}"
         for image in $IMAGES; do
-          echo "Pulling image: $image"
-          docker pull $image
+          echo "Pulling image: $image for platform: $PLATFORM"
         done
-
