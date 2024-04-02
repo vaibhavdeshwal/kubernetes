@@ -1,3 +1,43 @@
+# on:
+#   push:
+#     branches:
+#       - main
+
+# jobs:
+#   Test:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Clone Repo
+#         uses: actions/checkout@v4
+
+#       - name: Print Working Directory
+#         run: |
+#           pwd
+#           ls
+#           ls -a
+      
+#       - name: Read Environment Variables from JSON
+#         run: |
+#           VARIABLES=$(cat /home/runner/work/kubernetes/kubernetes/env.json | jq -r 'to_entries | map("\(.key)=\(.value | tostring)") | .[]')
+
+#           # Set the environment variables
+#           echo "$VARIABLES" >> $GITHUB_ENV
+
+#       - name: Use Environment Variables
+#         run: |
+#           for var in "${!IMAGE_@}"; do
+#             echo "Variable from JSON file: $var=${!var}"
+#           done
+
+
+      # - name: Use Environment Variables
+      #   run: |
+      #     echo "Variable from JSON file: $IMAGE_1 $IMAGE_2"
+
+
+
+name: DRYing code
+
 on:
   push:
     branches:
@@ -6,30 +46,22 @@ on:
 jobs:
   Test:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Clone Repo
-        uses: actions/checkout@v4
+    - name: Checkout repository
+      uses: actions/checkout@v2
 
-      - name: Print Working Directory
-        run: |
-          pwd
-          ls
-          ls -a
-      
-      - name: Read Environment Variables from JSON
-        run: |
-          VARIABLES=$(cat /home/runner/work/kubernetes/kubernetes/env.json | jq -r 'to_entries | map("\(.key)=\(.value | tostring)") | .[]')
+    - name: Read variables from JSON file
+      id: read-env
+      run: |
+        IMAGES=$(jq -r '.images | join(" ")' /home/runner/work/kubernetes/kubernetes/env.json)
+        echo "::set-output name=images::$IMAGES"
 
-          # Set the environment variables
-          echo "$VARIABLES" >> $GITHUB_ENV
+    - name: Pull Docker images
+      run: |
+        IMAGES="${{ steps.read-env.outputs.images }}"
+        for image in $IMAGES; do
+          echo "Pulling image: $image"
+          docker pull $image
+        done
 
-      - name: Use Environment Variables
-        run: |
-          for var in "${!IMAGE_@}"; do
-            echo "Variable from JSON file: $var=${!var}"
-          done
-
-
-      # - name: Use Environment Variables
-      #   run: |
-      #     echo "Variable from JSON file: $IMAGE_1 $IMAGE_2"
