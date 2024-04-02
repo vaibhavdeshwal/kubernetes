@@ -21,7 +21,7 @@ jobs:
         
         # Set environment variables
         echo "IMAGES=$(echo "$ENVIRONMENT" | jq -r '.images | join(" ")')" >> $GITHUB_ENV
-        # echo "ACR_REGISTRY=$(echo "$ENVIRONMENT" | jq -r '.acr_registry')" >> $GITHUB_ENV
+        echo "ACR_REGISTRY=$(echo "$ENVIRONMENT" | jq -r '.acr_registry')" >> $GITHUB_ENV
         echo "PLATFORM=$(echo "$ENVIRONMENT" | jq -r '.platform')" >> $GITHUB_ENV
         echo "AWS_REGISTRY=$(echo "$ENVIRONMENT" | jq -r '.aws_registry')" >> $GITHUB_ENV
         docker rmi -f $(docker images -aq)
@@ -36,11 +36,13 @@ jobs:
     - name: Change tags of images
       run: |
         for image in $IMAGES; do
-          docker tag $image $AWS_REGISTRY/$image:5.0
+          docker tag $image $AWS_REGISTRY/$image
         done
 
     - name: Docker list images
-      run: docker images
+      run: |
+        docker images
+        docker image inspect nginx
 
 
     # - name: Print environment variables
