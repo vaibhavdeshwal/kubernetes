@@ -25,4 +25,4 @@ jobs:
 
       - name: Use Environment Variables
         run: |
-          echo "Variable from JSON
+          echo "Variable from JSON file: $IMAGE_1 $IMAGE_2"
